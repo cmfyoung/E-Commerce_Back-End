@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
   // be sure to include its associated Products
   try {
     const findCategories = await Category.findAll({
-      include: [{ model: Produce }],
+      include: [{ model: Product }],
     });
     res.json(findCategories);
   } catch (err) {
@@ -38,7 +38,11 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   // create a new category
   try {
-    const newCategory = await Category.create(req.body);
+    const newCategory = await Category.create({  
+      where: {
+       category_name: req.body.category_name
+      }
+    });
     res.status(200).json(newCategory);
   } catch (err) {
     res.status(400).json(err);
